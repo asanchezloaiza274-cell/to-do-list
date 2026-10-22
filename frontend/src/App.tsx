@@ -1,3 +1,4 @@
+import DeleteTask from "./components/DeleteTask";
 import EditTask from "./components/EditTask";
 import FilterBar from "./components/FilterBar";
 import Header from "./components/Header";
@@ -16,6 +17,7 @@ function App() {
         </div>
       </div>
       <EditTask />
+      <DeleteTask />
     </main>
   );
 }
