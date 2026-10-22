@@ -5,10 +5,10 @@ import TaskList from "./components/TaskList";
 
 function App() {
   return (
-    <main>
-      <div className="max-w-7xl mx-auto">
-        <Header />
-        <div className="flex flex-col items-center gap-10">
+    <main className="">
+      <Header />
+      <div className="flex flex-col items-center mt-10">
+        <div className="w-7xl flex flex-col gap-3">
           <FilterBar />
           <TaskInput />
           <TaskList />
