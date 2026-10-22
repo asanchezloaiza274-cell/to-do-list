@@ -1,3 +1,4 @@
+import EditTask from "./components/EditTask";
 import FilterBar from "./components/FilterBar";
 import Header from "./components/Header";
 import TaskInput from "./components/TaskInput";
@@ -14,6 +15,7 @@ function App() {
           <TaskList />
         </div>
       </div>
+      <EditTask />
     </main>
   );
 }
