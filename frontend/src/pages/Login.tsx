@@ -1,7 +1,24 @@
+import { useForm, type SubmitHandler } from "react-hook-form";
+
+type Inputs = {
+  email: string;
+  password: string;
+};
+
 export default function Login() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>();
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  console.log(watch("email"));
+
   return (
     <div className="flex items-center justify-center h-screen">
-      <div className="flex flex-col gap-5">
+      <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-1">
           <h1 className="font-bold text-2xl">Iniciar sesión</h1>
           <p className="text-gray-500 text-sm">
@@ -15,11 +32,12 @@ export default function Login() {
           </label>
           <input
             type="email"
-            name="email"
             id="email"
             placeholder="tu@mail.com"
             className="outline-0 border border-gray-300 rounded-lg py-2.5 px-4.5"
+            {...register("email", { required: true })}
           />
+          {errors.email && <span>Este campo es requerido</span>}
         </div>
         <div className="flex flex-col gap-1">
           <label htmlFor="password" className="text-sm">
@@ -27,16 +45,17 @@ export default function Login() {
           </label>
           <input
             type="password"
-            name="password"
             id="password"
             placeholder="Tu contraseña"
             className="outline-0 border border-gray-300 rounded-lg py-2.5 px-4.5"
+            {...register("password", { required: true })}
           />
+          {errors.email && <span>Este campo es requerido</span>}
         </div>
 
         <button
           type="submit"
-          className="bg-[#4F46E5] text-white font-semibold rounded-lg py-2.5"
+          className="bg-[#4F46E5] text-white font-semibold rounded-lg py-2.5 cursor-pointer"
         >
           Iniciar sesión
         </button>
@@ -47,7 +66,7 @@ export default function Login() {
             Crear cuenta
           </a>
         </p>
-      </div>
+      </form>
     </div>
   );
 }
