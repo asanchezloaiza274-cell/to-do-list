@@ -34,10 +34,17 @@ export default function Login() {
             type="email"
             id="email"
             placeholder="tu@mail.com"
-            className="outline-0 border border-gray-300 rounded-lg py-2.5 px-4.5"
-            {...register("email", { required: true })}
+            aria-invalid={errors.email ? "true" : "false"}
+            className={`outline-0 border rounded-lg py-2.5 px-4.5 ${
+              errors.email ? "border-red-500" : "border-gray-300"
+            }`}
+            {...register("email", { required: "El correo es requerido" })}
           />
-          {errors.email && <span>Este campo es requerido</span>}
+          {errors.email && (
+            <p className="text-sm text-red-600" role="alert">
+              {errors.email.message}
+            </p>
+          )}
         </div>
         <div className="flex flex-col gap-1">
           <label htmlFor="password" className="text-sm">
@@ -47,10 +54,17 @@ export default function Login() {
             type="password"
             id="password"
             placeholder="Tu contraseña"
-            className="outline-0 border border-gray-300 rounded-lg py-2.5 px-4.5"
-            {...register("password", { required: true })}
+            aria-invalid={errors.password ? "true" : "false"}
+            className={`outline-0 border rounded-lg py-2.5 px-4.5 ${
+              errors.password ? "border-red-500" : "border-gray-300"
+            }`}
+            {...register("password", { required: "La contraseña es requerida" })}
           />
-          {errors.email && <span>Este campo es requerido</span>}
+          {errors.password && (
+            <p className="text-sm text-red-600" role="alert">
+              {errors.password.message}
+            </p>
+          )}
         </div>
 
         <button
