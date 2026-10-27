@@ -4,12 +4,18 @@ from django.db import models
 class Task(models.Model):
 
     class Category(models.TextChoices):
-        HOGAR = "home", "Hogar"
-        OCIO = "leisure", "Ocio"
+        HOGAR = "hogar", "Hogar"
+        OCIO = "ocio", "Ocio"
+
+    class Status(models.TextChoices):
+        PENDIENTE = "pendiente", "Pendiente"
+        COMPLETADA = "completada", "Completada"
+        ELIMINADA = "eliminada", "Eliminada"
 
     title = models.CharField(max_length=500)
-    completed = models.BooleanField(default=False)
-    deleted = models.BooleanField(default=False)
+    status = models.CharField(
+        max_length=10, choices=Status.choices, default=Status.PENDIENTE
+    )
     category = models.CharField(
         max_length=10, choices=Category.choices, default=Category.HOGAR
     )

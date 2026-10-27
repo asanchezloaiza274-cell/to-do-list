@@ -1,6 +1,6 @@
 export default function EditTask() {
   return (
-    <main className="fixed inset-0 flex items-center justify-center bg-[#787E89]">
+    <main className="fixed inset-0 hidden items-center justify-center bg-[#787E89]">
       <div className="flex flex-col gap-7 bg-[#FFFFFF] py-7 px-6 w-xl rounded-xl">
         <div className="flex justify-between items-center">
           <p className="font-bold text-lg">Editar Tarea</p>
