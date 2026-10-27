@@ -9,3 +9,5 @@ export interface Task {
   created_at: string;
   updated_at: string;
 }
+
+export type TaskFormData = Pick<Task, "title" | "category" | "status">;

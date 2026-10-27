@@ -1,5 +1,6 @@
 from django.test import TestCase
 from rest_framework.test import APIClient
+from .models import Task
 
 
 class TaskApiRootTests(TestCase):
@@ -13,3 +14,17 @@ class TaskApiRootTests(TestCase):
         self.assertTrue(
             response.data["listar_tareas"]["url"].endswith("/api/tasks/list/")
         )
+
+    def test_task_can_be_updated(self):
+        task = Task.objects.create(title="Tarea original")
+
+        response = APIClient().patch(
+            f"/api/tasks/{task.id}/",
+            {"title": "Tarea actualizada", "status": "completada"},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, 200)
+        task.refresh_from_db()
+        self.assertEqual(task.title, "Tarea actualizada")
+        self.assertEqual(task.status, "completada")

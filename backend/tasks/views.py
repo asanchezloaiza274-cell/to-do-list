@@ -26,6 +26,12 @@ class TaskCreateView(generics.CreateAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
 
+
+class TaskDetailView(generics.RetrieveUpdateAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+
+
 class TaskListView(generics.ListAPIView):
     queryset = Task.objects.exclude(status=Task.Status.ELIMINADA)
     serializer_class = TaskSerializer

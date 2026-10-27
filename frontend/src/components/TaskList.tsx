@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import { getTask } from "../services/api";
 import type { Task } from "../types/task";
 
 const categoryLabels = {
@@ -7,20 +5,12 @@ const categoryLabels = {
   ocio: "Ocio",
 };
 
-export default function TaskList() {
-  const [tasks, setTask] = useState<Task[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+interface Props {
+  tasks: Task[];
+  onEdit: (task: Task) => void;
+}
 
-  useEffect(() => {
-    getTask()
-      .then(setTask)
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) return <p>Cargando tareas...</p>;
-  if (error) return <p>{error}</p>;
+export default function TaskList({ tasks, onEdit }: Props) {
   if (tasks.length === 0) return <p>No tienes tareas todavía</p>;
 
   return (
@@ -46,16 +36,25 @@ export default function TaskList() {
                 {categoryLabels[task.category]}
               </p>
               <p
-                className={
-                  task.status === "pendiente"
-                    ? "bg-yellow-200 text-gray-700 text-sm px-3 py-0.5 rounded-full"
-                    : "bg-green-400 text-gray-700 text-sm px-3 py-0.5 rounded-full"
-                }
+                className={`${
+                  task.status === "completada" ? "bg-green-400" : "bg-yellow-200"
+                } text-gray-700 text-sm px-3 py-0.5 rounded-full`}
               >
-                {task.status === "pendiente" ? "Pendiente" : "Completado"}
+                {task.status === "pendiente"
+                  ? "Pendiente"
+                  : task.status === "completada"
+                    ? "Completada"
+                    : "Eliminada"}
               </p>
             </div>
           </div>
+          <button
+            type="button"
+            className="ml-auto cursor-pointer text-sm text-indigo-600"
+            onClick={() => onEdit(task)}
+          >
+            Editar
+          </button>
         </div>
       ))}
     </>
