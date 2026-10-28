@@ -7,8 +7,6 @@ export interface Task {
   title: string;
   status: Status;
   category: Category;
-  created_at: string;
-  updated_at: string;
 }
 
 export type TaskFormData = Pick<Task, "title" | "category" | "status">;

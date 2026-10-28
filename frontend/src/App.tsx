@@ -1,67 +1,55 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CreateAndEditTask from "./components/CreateAndEditTask";
 import FilterBar from "./components/FilterBar";
 import Header from "./components/Header";
 import TaskInput from "./components/TaskInput";
 import TaskList from "./components/TaskList";
-import { getTask, createTask, updateTask } from "./services/api";
+import { readTasks, writeTasks } from "./services/taskStorage";
 import type { Task, TaskFilter, TaskFormData } from "./types/task";
 
 export default function App() {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [taskState, setTaskState] = useState<{
+    tasks: Task[];
+    error: string | null;
+  }>(() => {
+    try {
+      return { tasks: readTasks(), error: null };
+    } catch (error) {
+      console.error("Error al cargar tareas:", error);
+      return {
+        tasks: [],
+        error: "No se pudieron cargar las tareas guardadas en este navegador.",
+      };
+    }
+  });
+  const { tasks, error } = taskState;
   const [activeFilter, setActiveFilter] = useState<TaskFilter>("todas");
-  const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [initialTitle, setInitialTitle] = useState("");
 
-  async function fetchTasks() {
+  const handleSaveTask = (data: TaskFormData) => {
     try {
-      const data = await getTask();
-      setTasks(data);
-      setError(null);
-    } catch (error) {
-      console.error("Error al cargar tareas:", error);
-      setError("No se pudieron cargar las tareas.");
-    }
-  }
-
-  useEffect(() => {
-    let active = true;
-
-    async function loadTasks() {
-      try {
-        const data = await getTask();
-        if (active) {
-          setTasks(data);
-          setError(null);
-        }
-      } catch (error) {
-        console.error("Error al cargar tareas:", error);
-        if (active) {
-          setError("No se pudieron cargar las tareas.");
-        }
-      }
-    }
-
-    loadTasks();
-    return () => {
-      active = false;
-    };
-  }, []);
-
-  const handleSaveTask = async (data: TaskFormData) => {
-    try {
-      if (editingTask) {
-        await updateTask(editingTask.id, data);
-      } else {
-        await createTask(data);
-      }
-      await fetchTasks();
+      const updatedTasks = editingTask
+        ? tasks.map((task) =>
+            task.id === editingTask.id ? { ...task, ...data } : task,
+          )
+        : [
+            ...tasks,
+            {
+              id: tasks.reduce((maxId, task) => Math.max(maxId, task.id), 0) + 1,
+              ...data,
+            },
+          ];
+      writeTasks(updatedTasks);
+      setTaskState({ tasks: updatedTasks, error: null });
       closeModal();
     } catch (error) {
       console.error("Error al guardar la tarea:", error);
-      setError("No se pudo guardar la tarea.");
+      setTaskState((current) => ({
+        ...current,
+        error: "No se pudo guardar la tarea en este navegador.",
+      }));
     }
   };
 
