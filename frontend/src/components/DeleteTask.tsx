@@ -3,7 +3,7 @@ export default function DeleteTask() {
     <main className="dialog-overlay dialog-overlay-hidden">
       <div className="dialog-panel items-center">
         <p className="dialog-heading">¿Eliminar esta tarea?</p>
-        <p className="login-description text-center">
+        <p className="dialog-description text-center">
           Vas a eliminar{" "}
           <span className="text-white">
             "Entregar la tarea de programación"

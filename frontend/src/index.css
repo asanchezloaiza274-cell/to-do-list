@@ -471,68 +471,10 @@ input:focus-visible {
   background: #994957;
 }
 
-.login-page {
-  display: grid;
-  min-height: 100vh;
-  place-items: center;
-  padding: 1.25rem;
-}
-
-.login-card {
-  display: flex;
-  width: min(100%, 27rem);
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 2.25rem;
-  border: 1px solid #293142;
-  border-radius: 1.25rem;
-  background: linear-gradient(145deg, rgb(22 28 40 / 96%), rgb(17 22 32 / 96%));
-  box-shadow: 0 24px 80px rgb(0 0 0 / 28%);
-}
-
-.login-heading {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.login-title {
-  color: #f0f1f7;
-  font-size: 1.55rem;
-  font-weight: 700;
-  letter-spacing: -0.035em;
-}
-
-.login-description,
-.login-footer {
+.dialog-description {
   color: var(--muted);
   font-size: 0.875rem;
   line-height: 1.55;
-}
-
-.login-field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.login-label {
-  color: #c7cdd8;
-  font-size: 0.875rem;
-}
-
-.login-error {
-  color: #f0919b;
-  font-size: 0.8rem;
-}
-
-.login-footer {
-  text-align: center;
-}
-
-.login-link {
-  color: #aaa7ff;
-  font-weight: 600;
 }
 
 @media (max-width: 640px) {
@@ -589,8 +531,7 @@ input:focus-visible {
     padding: 0.9rem;
   }
 
-  .dialog-panel,
-  .login-card {
+  .dialog-panel {
     padding: 1.4rem;
   }
 }
