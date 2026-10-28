@@ -80,32 +80,6 @@ input:focus-visible {
   letter-spacing: -0.035em;
 }
 
-.welcome {
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
-.welcome strong {
-  color: #e8eaf2;
-  font-weight: 600;
-}
-
-.header-action {
-  padding: 0.55rem 0.8rem;
-  border: 1px solid transparent;
-  border-radius: 0.7rem;
-  background: transparent;
-  color: #aab2c2;
-  cursor: pointer;
-  font-size: 0.875rem;
-}
-
-.header-action:hover {
-  border-color: var(--border);
-  background: var(--surface-raised);
-  color: #f0f1f7;
-}
-
 .app-content {
   width: min(100%, 80rem);
   margin: 0 auto;
@@ -492,10 +466,6 @@ input:focus-visible {
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
-  }
-
-  .welcome {
-    display: none;
   }
 
   .app-content {
