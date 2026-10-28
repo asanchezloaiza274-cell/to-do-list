@@ -14,16 +14,36 @@ Aplicación con frontend React/Vite, API Django REST y base de datos PostgreSQL.
 1. Crea un sitio nuevo importando este repositorio. Netlify detectará `netlify.toml`, que configura el directorio `frontend`, el comando `npm run build` y la publicación de `dist`.
 2. Deja que termine el primer despliegue y copia el dominio asignado por Netlify, por ejemplo `https://mi-lista.netlify.app`. En este momento la API aún no estará conectada.
 
-### 3. Desplegar la API en Render
+### 3. Desplegar la API en Vercel
 
-1. En Render, crea un **Blueprint** desde este repositorio y acepta la configuración de `render.yaml`.
-2. Cuando Render lo solicite, define `DATABASE_URL` con la cadena de Neon y `CORS_ALLOWED_ORIGINS` con el dominio Netlify (sin `/` al final).
-3. Render genera `SECRET_KEY` y configura `DEBUG=false`. La compilación instala dependencias, aplica migraciones y prepara los archivos estáticos.
-4. Espera al despliegue y copia la URL pública del servicio, por ejemplo `https://to-do-list-api.onrender.com`.
+1. Importa el mismo repositorio en [Vercel](https://vercel.com/new).
+2. En la configuración del proyecto, establece **Root Directory** en `backend`. Vercel detectará Django a partir de `manage.py` y usará Python 3.13.
+3. Antes de desplegar, agrega estas variables para **Production**:
+   - `SECRET_KEY`: una clave secreta nueva y aleatoria.
+   - `DEBUG`: `false`.
+   - `DATABASE_URL`: la cadena de conexión PostgreSQL de Neon. La conexión pooled sirve para las solicitudes de la API.
+   - `CORS_ALLOWED_ORIGINS`: el dominio Netlify, sin `/` al final.
+4. En la configuración de variables de entorno, habilita **System Environment Variables** para que Django pueda reconocer el dominio asignado por Vercel.
+5. Despliega y copia el dominio de producción del proyecto Vercel, por ejemplo `https://mi-api.vercel.app`.
 
-### 4. Conectar y volver a desplegar el frontend
+El plan Hobby de Vercel es gratuito para proyectos personales no comerciales y tiene límites de uso. La API se ejecuta como una función serverless; no mantiene un proceso permanente.
 
-En **Site configuration → Environment variables** de Netlify, agrega `VITE_API_URL` con la URL de Render más `/api`, por ejemplo `https://to-do-list-api.onrender.com/api`. Inicia un nuevo despliegue para que Vite incorpore la variable al bundle.
+### 4. Aplicar las migraciones a Neon
+
+Las migraciones deben ejecutarse una vez contra la base de datos de Neon. En PowerShell, desde `backend`, configura temporalmente las variables y ejecuta Django. Para esta operación usa la URL **directa** de Neon (sin `-pooler` en el host):
+
+```powershell
+$env:DATABASE_URL = "PEGA_AQUI_LA_URL_DIRECTA_DE_NEON"
+$env:SECRET_KEY = "LA_MISMA_CLAVE_CONFIGURADA_EN_VERCEL"
+$env:DEBUG = "false"
+python manage.py migrate --noinput
+```
+
+Al terminar, cierra esa terminal para quitar las variables temporales.
+
+### 5. Conectar y volver a desplegar el frontend
+
+En **Site configuration → Environment variables** de Netlify, agrega `VITE_API_URL` con la URL de Vercel más `/api`, por ejemplo `https://mi-api.vercel.app/api`. Inicia un nuevo despliegue para que Vite incorpore la variable al bundle.
 
 La regla de redirección de Netlify incluida permite que la aplicación React Router cargue correctamente al visitar o recargar sus rutas.
 
