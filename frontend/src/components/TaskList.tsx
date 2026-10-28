@@ -11,34 +11,44 @@ interface Props {
 }
 
 export default function TaskList({ tasks, onEdit }: Props) {
-  if (tasks.length === 0) return <p>No tienes tareas todavía</p>;
+  if (tasks.length === 0) {
+    return (
+      <p className="empty-state">
+        No hay tareas que coincidan con este filtro
+      </p>
+    );
+  }
 
   return (
     <>
       {tasks.map((task) => (
         <div
-          className="border border-[#e7e7e7] rounded-2xl py-3 px-5 bg-[#FFFFFF]  flex items-center gap-3 shadow mb-1"
+          className="task-card"
           key={task.id}
         >
-          <input type="radio" name="" className="size-5" id="" />
-          <div className="flex flex-col gap-1">
+          
+          <div className="task-details">
             <p
-              className={
+              className={`task-title ${
                 task.status === "completada"
-                  ? "line-through text-slate-500"
+                  ? "task-title-completed"
                   : ""
-              }
+              }`}
             >
               {task.title}
             </p>
-            <div className="flex items-center gap-3">
-              <p className="bg-[#F1F5F9] text-gray-700 text-sm px-3 py-0.5 rounded-full">
+            <div className="task-tags">
+              <p className="task-tag">
                 {categoryLabels[task.category]}
               </p>
               <p
-                className={`${
-                  task.status === "completada" ? "bg-green-400" : "bg-yellow-200"
-                } text-gray-700 text-sm px-3 py-0.5 rounded-full`}
+                className={`task-tag ${
+                  task.status === "pendiente"
+                    ? "task-status-pending"
+                    : task.status === "completada"
+                      ? "task-status-completed"
+                      : "task-status-deleted"
+                }`}
               >
                 {task.status === "pendiente"
                   ? "Pendiente"
@@ -50,7 +60,7 @@ export default function TaskList({ tasks, onEdit }: Props) {
           </div>
           <button
             type="button"
-            className="ml-auto cursor-pointer text-sm text-indigo-600"
+            className="edit-button"
             onClick={() => onEdit(task)}
           >
             Editar

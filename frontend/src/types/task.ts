@@ -1,5 +1,6 @@
 export type Category = "hogar" | "ocio";
 export type Status = "pendiente" | "completada" | "eliminada";
+export type TaskFilter = "todas" | Status;
 
 export interface Task {
   id: number;

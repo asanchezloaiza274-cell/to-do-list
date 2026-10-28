@@ -17,17 +17,17 @@ export default function Login() {
   console.log(watch("email"));
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-1">
-          <h1 className="font-bold text-2xl">Iniciar sesión</h1>
-          <p className="text-gray-500 text-sm">
+    <div className="login-page">
+      <form className="login-card" onSubmit={handleSubmit(onSubmit)}>
+        <div className="login-heading">
+          <h1 className="login-title">Iniciar sesión</h1>
+          <p className="login-description">
             Bienvenido de nuevo. Ingresa tus datos para continuar.
           </p>
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="email" className="text-sm">
+        <div className="login-field">
+          <label htmlFor="email" className="login-label">
             Correo electrónico
           </label>
           <input
@@ -35,19 +35,17 @@ export default function Login() {
             id="email"
             placeholder="tu@mail.com"
             aria-invalid={errors.email ? "true" : "false"}
-            className={`outline-0 border rounded-lg py-2.5 px-4.5 ${
-              errors.email ? "border-red-500" : "border-gray-300"
-            }`}
+            className={`field-input ${errors.email ? "field-input-error" : ""}`}
             {...register("email", { required: "El correo es requerido" })}
           />
           {errors.email && (
-            <p className="text-sm text-red-600" role="alert">
+            <p className="login-error" role="alert">
               {errors.email.message}
             </p>
           )}
         </div>
-        <div className="flex flex-col gap-1">
-          <label htmlFor="password" className="text-sm">
+        <div className="login-field">
+          <label htmlFor="password" className="login-label">
             Contraseña
           </label>
           <input
@@ -55,13 +53,11 @@ export default function Login() {
             id="password"
             placeholder="Tu contraseña"
             aria-invalid={errors.password ? "true" : "false"}
-            className={`outline-0 border rounded-lg py-2.5 px-4.5 ${
-              errors.password ? "border-red-500" : "border-gray-300"
-            }`}
+            className={`field-input ${errors.password ? "field-input-error" : ""}`}
             {...register("password", { required: "La contraseña es requerida" })}
           />
           {errors.password && (
-            <p className="text-sm text-red-600" role="alert">
+            <p className="login-error" role="alert">
               {errors.password.message}
             </p>
           )}
@@ -69,14 +65,14 @@ export default function Login() {
 
         <button
           type="submit"
-          className="bg-[#4F46E5] text-white font-semibold rounded-lg py-2.5 cursor-pointer"
+          className="primary-button"
         >
           Iniciar sesión
         </button>
 
-        <p className="text-sm text-center text-gray-500">
+        <p className="login-footer">
           ¿No tienes cuenta?{" "}
-          <a href="" className="text-[#4F46E5] font-semibold">
+          <a href="" className="login-link">
             Crear cuenta
           </a>
         </p>

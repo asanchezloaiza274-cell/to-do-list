@@ -33,5 +33,5 @@ class TaskDetailView(generics.RetrieveUpdateAPIView):
 
 
 class TaskListView(generics.ListAPIView):
-    queryset = Task.objects.exclude(status=Task.Status.ELIMINADA)
+    queryset = Task.objects.all()
     serializer_class = TaskSerializer

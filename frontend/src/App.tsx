@@ -5,10 +5,11 @@ import Header from "./components/Header";
 import TaskInput from "./components/TaskInput";
 import TaskList from "./components/TaskList";
 import { getTask, createTask, updateTask } from "./services/api";
-import type { Task, TaskFormData } from "./types/task";
+import type { Task, TaskFilter, TaskFormData } from "./types/task";
 
 export default function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [activeFilter, setActiveFilter] = useState<TaskFilter>("todas");
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
@@ -84,19 +85,33 @@ export default function App() {
   const pendingCount = activeTasks.filter(
     (task) => task.status === "pendiente",
   ).length;
+  const deletedCount = tasks.filter(
+    (task) => task.status === "eliminada",
+  ).length;
+  const filteredTasks = tasks.filter((task) => {
+    if (activeFilter === "todas") return task.status !== "eliminada";
+    return task.status === activeFilter;
+  });
 
   return (
-    <main className="min-h-screen bg-gray-50 pb-10">
+    <main className="app-shell">
       <Header />
-      <div className="flex flex-col items-center mt-10">
-        <div className="w-full max-w-7xl px-4 flex flex-col gap-3">
+      <div className="app-content">
+        <div className="task-stack">
           <FilterBar
+            activeFilter={activeFilter}
+            onFilterChange={setActiveFilter}
             pendingCount={pendingCount}
             totalCount={activeTasks.length}
+            deletedCount={deletedCount}
           />
           <TaskInput onOpenCreate={openCreateModal} />
-          {error && <p role="alert" className="text-red-600">{error}</p>}
-          <TaskList tasks={tasks} onEdit={openEditModal} />
+          {error && <p role="alert" className="error-message">{error}</p>}
+          <TaskList
+            key={activeFilter}
+            tasks={filteredTasks}
+            onEdit={openEditModal}
+          />
         </div>
       </div>
 

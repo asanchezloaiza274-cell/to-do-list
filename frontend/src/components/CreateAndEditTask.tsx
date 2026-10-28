@@ -35,40 +35,41 @@ export default function CreateAndEditTask({
   };
 
   return (
-    <main className="fixed inset-0 flex items-center justify-center bg-[#787E89]">
-      <div className="flex flex-col gap-7 bg-[#FFFFFF] py-7 px-6 w-xl rounded-xl">
-        <div className="flex justify-between items-center">
-          <p className="font-bold text-lg">
+    <main className="dialog-overlay">
+      <div className="dialog-panel">
+        <div className="dialog-heading">
+          <p>
             {task ? "Editar Tarea" : "Crear Tarea"}
           </p>
-          <button className="cursor-pointer" onClick={onClose}>
-            X
+          <button className="dialog-close" onClick={onClose} aria-label="Cerrar">
+            ×
           </button>
         </div>
 
-        <div className="flex flex-col gap-2">
-          <p className="text-sm">Título</p>
+        <div className="dialog-field">
+          <label className="dialog-label" htmlFor="task-title">Título</label>
           <input
             type="text"
+            id="task-title"
             placeholder="Entregar la tarea de programación"
-            className="border border-[#e7e7e7] rounded-lg py-2 px-4 bg-[#FFFFFF] outline-0 text-sm"
+            className="field-input"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
 
-        <div className="flex flex-col gap-2">
-          <p className="text-sm">Categoría</p>
-          <div className="flex items-center gap-2">
+        <div className="dialog-field">
+          <p className="dialog-label">Categoría</p>
+          <div className="dialog-options">
             {categorias.map((cat) => {
               const isSelected = category === cat.value;
 
               return (
                 <button
-                  className={`py-2 px-3 cursor-pointer text-sm rounded-lg border ${
+                  className={`option-button ${
                     isSelected
-                      ? "bg-[#EEF2FF] border-[#7F79EC] text-[#4F46E5] font-medium"
-                      : "bg-[#FFFFFF] border-[#e7e7e7] text-gray-700"
+                      ? "option-button-selected"
+                      : ""
                   }`}
                   key={cat.value}
                   type="button"
@@ -81,18 +82,18 @@ export default function CreateAndEditTask({
           </div>
         </div>
 
-        <div className="flex flex-col gap-2">
-          <p className="text-sm">Estado</p>
-          <div className="flex items-center gap-2">
+        <div className="dialog-field">
+          <p className="dialog-label">Estado</p>
+          <div className="dialog-options">
             {estados.map((est) => {
               const isSelected = status === est.value;
 
               return (
                 <button
-                  className={`py-2 px-3 cursor-pointer text-sm rounded-lg border ${
+                  className={`option-button ${
                     isSelected
-                      ? "bg-[#EEF2FF] border-[#7F79EC] text-[#4F46E5] font-medium"
-                      : "bg-[#FFFFFF] border-[#e7e7e7] text-gray-700"
+                      ? "option-button-selected"
+                      : ""
                   }`}
                   key={est.value}
                   type="button"
@@ -105,17 +106,15 @@ export default function CreateAndEditTask({
           </div>
         </div>
 
-        <div className="flex items-center gap-2 self-end">
+        <div className="dialog-actions">
           <button
-            className="cursor-pointer bg-[#FFFFFF] py-2 px-3 text-sm border border-[#e7e7e7] rounded-lg
-            "
+            className="secondary-button"
             onClick={onClose}
           >
             Cancelar
           </button>
           <button
-            className="cursor-pointer bg-[#4F46E5] py-2 px-3 text-sm border border-[#e7e7e7] rounded-lg text-white
-            "
+            className="primary-button"
             onClick={handleSubmit}
           >
             {task ? "Actualizar cambios" : "Guardar cambios"}

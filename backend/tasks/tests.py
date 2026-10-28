@@ -28,3 +28,16 @@ class TaskApiRootTests(TestCase):
         task.refresh_from_db()
         self.assertEqual(task.title, "Tarea actualizada")
         self.assertEqual(task.status, "completada")
+
+    def test_task_list_includes_deleted_tasks(self):
+        deleted_task = Task.objects.create(
+            title="Tarea eliminada",
+            status=Task.Status.ELIMINADA,
+        )
+
+        response = APIClient().get("/api/tasks/list/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]["id"], deleted_task.id)
+        self.assertEqual(response.data[0]["status"], Task.Status.ELIMINADA)

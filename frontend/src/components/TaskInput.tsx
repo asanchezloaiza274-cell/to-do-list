@@ -8,11 +8,11 @@ export default function TaskInput({
   const [title, setTitle] = useState("");
 
   return (
-    <div className="flex items-center justify-between gap-3">
+    <div className="task-input-row">
       <input
         type="text"
         placeholder="Añade una tarea..."
-        className="bg-[#FFFFFF] w-full border border-[#e7e7e7] rounded-2xl py-3 px-5 outline-0 "
+        className="field-input"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         onKeyDown={(e) => {
@@ -24,7 +24,7 @@ export default function TaskInput({
       />
       <button
         type="button"
-        className="cursor-pointer bg-[#4F46E5] rounded-xl py-3 px-7 text-white font-semibold "
+        className="primary-button"
         onClick={() => {
           if (title.trim()) {
             onOpenCreate(title.trim());
