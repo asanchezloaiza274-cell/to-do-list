@@ -1,4 +1,9 @@
-export default function FilterBar() {
+interface Props {
+  pendingCount: number;
+  totalCount: number;
+}
+
+export default function FilterBar({ pendingCount, totalCount }: Props) {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-3">
@@ -16,7 +21,9 @@ export default function FilterBar() {
           Eliminados
         </button>
       </div>
-      <p className="text-[#8f8e8e]">4 pendientes de 5</p>
+      <p className="text-[#8f8e8e]">
+        {pendingCount} pendientes de {totalCount}
+      </p>
     </div>
   );
 }

@@ -80,12 +80,20 @@ export default function App() {
     setEditingTask(null);
   };
 
+  const activeTasks = tasks.filter((task) => task.status !== "eliminada");
+  const pendingCount = activeTasks.filter(
+    (task) => task.status === "pendiente",
+  ).length;
+
   return (
     <main className="min-h-screen bg-gray-50 pb-10">
       <Header />
       <div className="flex flex-col items-center mt-10">
         <div className="w-full max-w-7xl px-4 flex flex-col gap-3">
-          <FilterBar />
+          <FilterBar
+            pendingCount={pendingCount}
+            totalCount={activeTasks.length}
+          />
           <TaskInput onOpenCreate={openCreateModal} />
           {error && <p role="alert" className="text-red-600">{error}</p>}
           <TaskList tasks={tasks} onEdit={openEditModal} />
